@@ -1,26 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import { Button } from 'antd'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+// 函数组件传递props
+function Welcome (props) {
+    return (
+        <h1>{props.name}</h1>
+    )
 }
 
-export default App;
+export default class App extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            date: new Date(),
+            count: 0
+        }
+    }
+
+    componentDidMount () {
+        this.timer = setInterval(() => {
+            this.setState({
+                date: new Date()
+            })
+        }, 1000);
+
+        this.setState((prevState, prevProps) => ({
+            count: prevState.count + 1
+        }))
+    }
+
+    componentWillUnmount () {
+        clearInterval(this.timer)
+    }
+
+
+
+    render () {
+        return (
+            <div>
+                {/* antd */}
+                <Button type="primary">button</Button>
+                <Welcome name="guoyanhao"></Welcome>
+                <p>{this.state.date.toLocaleTimeString()}</p>
+                <p>{this.state.count}</p>
+            </div>
+        )
+    }
+}
